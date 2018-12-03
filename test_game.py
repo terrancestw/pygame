@@ -9,7 +9,10 @@ display_height = 600
 
 black = (0,0,0)
 white = (255,255,255)
-red = (255,0,0)
+red = (200,0,0)
+green = (0,200,0)
+bright_red = (255,0,0)
+bright_green = (0,255,0)
 
 block_color = (53,115,255)
 
@@ -53,6 +56,43 @@ def message_diplay(text):
 def crash():
     message_diplay('You Crashed')
 
+def game_intro():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        gameDisplay.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf',115)
+        TextSurf, TextRect = text_objects('Racing', largeText)
+        TextRect.center = ((display_width/2),(display_height/2))
+        gameDisplay.blit(TextSurf, TextRect)
+
+        mouse = pygame.mouse.get_pos()
+
+        #print(mouse)
+
+        if 150+100 > mouse[0] > 150 and 450+50 > mouse[1] > 450:
+            pygame.draw.rect(gameDisplay, bright_green,(150,450,100,50))
+        else:
+            pygame.draw.rect(gameDisplay, green,(150,450,100,50))
+
+        smallText = pygame.font.Font('freesansbold.ttf',20)
+        TextSurf, textRect = text_objects('GO!',smallText)
+        textRect.center = ( (150+(100/2)), (450+(50/2)) )
+        gameDisplay.blit(TextSurf, textRect)
+
+        pygame.draw.rect(gameDisplay, red, (550,450,100,50))
+
+        pygame.display.update()
+        clock.tick(15)
+
+
 def game_loop():
     x = (display_width * 0.45)
     y = (display_height * 0.8)
@@ -62,7 +102,7 @@ def game_loop():
 ##############
     thing_startx = random.randrange(0,display_width)
     thing_starty = 600
-    thing_speed = 7
+    thing_speed = 4
     thing_width = 100
     thing_height = 100
 ##############
@@ -121,6 +161,7 @@ def game_loop():
         pygame.display.update()
         clock.tick(60)
 
+game_intro()
 game_loop()
 pygame.quit()
 quit()
